@@ -35,3 +35,7 @@ Route::get('post/{id}/delete', [PostsController::class, 'delete']);
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
