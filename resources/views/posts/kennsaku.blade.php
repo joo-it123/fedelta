@@ -21,7 +21,7 @@
  
 <th>投稿No</th>
 
-<th>投稿者</th> 
+<!-- <th>名前</th> -->
  
 <th>投稿内容</th>
  
@@ -39,14 +39,7 @@
  
 <td>{{ $list->id }}</td>
 
-<!-- <td>{{ $list->name }}</td> -->
-<td>
-        @if ($list->user)
-                {{ $list->user->name }}
-            @else
-                投稿者不明
-            @endif
-</td> 
+<td>{{ $list->name }}</td>
  
 <td>{{ $list->post }}</td>
  

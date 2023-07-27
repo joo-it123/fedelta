@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\PostsController;
 
 /*
@@ -14,28 +15,49 @@ use App\Http\Controllers\PostsController;
 |
 */
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('hello', function(){
-    // echo 'Hello World!!';
-// });
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('hello', [PostsController::class, 'hello']);
-Route::get('index', [PostsController::class, 'index']);
-Route::get('post/{id}/update-form', [PostsController::class, 'updateForm']);
-Route::get('/create-form', [PostsController::class, 'createForm']);
-
-Route::post('post/create', [PostsController::class, 'create']);
-Route::post('post/update', [PostsController::class, 'update']);
-Route::get('post/{id}/delete', [PostsController::class, 'delete']);
-
-
-
+require __DIR__.'/auth.php';
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+ 
+Route::get('hello', function(){
+ 
+    echo 'Hello World!!';
+     
+    });
+
+    Route::get('hello', [PostsController::class, 'hello']);
+
+    Route::get('index', [PostsController::class, 'index']);
+
+    Route::get('/create-form', [PostsController::class, 'createForm']);
+
+    Route::post('post/create', [PostsController::class, 'create']);
+
+    Route::get('post/{id}/update-form', [PostsController::class, 'updateForm']);
+
+    Route::post('post/update', [PostsController::class, 'update']);
+
+    Route::get('post/{id}/delete', [PostsController::class, 'delete']);
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('index', [PostsController::class, 'in'])->name('posts.in');
+
