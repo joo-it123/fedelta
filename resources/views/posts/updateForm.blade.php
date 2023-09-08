@@ -35,6 +35,10 @@
 {!! Form::hidden('id', $post->id) !!}
  
 {!! Form::input('text', 'upPost', $post->post, ['required', 'class' => 'form-control']) !!}
+
+@if ($errors->has('newPost'))
+            <span class="text-danger">{{ $errors->first('newPost') }}</span>
+        @endif
  
 </div>
  

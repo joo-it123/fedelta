@@ -19,28 +19,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('index', [PostsController::class, 'index'])->name('posts.index');
+});
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
 
 require __DIR__.'/auth.php';
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-
- 
-Route::get('hello', function(){
- 
-    echo 'Hello World!!';
-     
-    });
 
     Route::get('hello', [PostsController::class, 'hello']);
 
@@ -55,9 +52,14 @@ Route::get('hello', function(){
     Route::post('post/update', [PostsController::class, 'update']);
 
     Route::get('post/{id}/delete', [PostsController::class, 'delete']);
-Auth::routes();
+    
+    Route::get('index', [PostsController::class, 'in'])->name('posts.in');
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+   // password/reset ルートの名前を変更
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset.custom');
 
-Route::get('index', [PostsController::class, 'in'])->name('posts.in');
+    // password.request ルートの名前を変更
+    Route::get('forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request.custom');
 
+    // password/email ルートの名前を変更
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email.custom');

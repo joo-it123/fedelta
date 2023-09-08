@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 use resources\views\posts\indexpost;
 
+use Illuminate\Support\Facades\Validator; 
+
 class PostsController extends Controller
 {
     //
@@ -31,7 +33,18 @@ class PostsController extends Controller
 
     public function create(Request $request){
  
+        $request->validate([
+            'newPost' => 'required|max:100', // newPostフィールドは必須で、最大100文字まで
+        ]);
+
         $post = $request->input('newPost');
+
+        if (empty(trim($post)) || preg_match('/^\s*$/', $post) || preg_match('/^[　\s]*$/', $post)) {
+            return back()->withInput()->withErrors(['newPost' => '投稿内容が空白です。']);
+        }
+        
+    
+
     $user_id = Auth::check() ? Auth::user()->id : null; // ログイン中のユーザーのIDを取得
 
     DB::table('posts')->insert([
@@ -52,6 +65,11 @@ class PostsController extends Controller
         ->where('id', $id)
         
         ->first();
+
+        if ($post->user_id !== Auth::id()) {
+            // 投稿者でなければリダイレクトまたはエラー処理
+            return redirect('/index');
+        }
         
         return view('posts.updateForm', ['post' => $post]);
         
@@ -60,8 +78,17 @@ class PostsController extends Controller
     public function update(Request $request){
  
         $id = $request->input('id');
+    $up_post = $request->input('upPost');
+
+    $request->validate([
+        'upPost' => 'required|max:100', // upPostフィールドは必須で、最大100文字まで
+    ]);
+        // 空白判定
+        if (empty(trim($up_post)) || preg_match('/^\s*$/', $up_post) || preg_match('/^[　\s]*$/', $up_post)) {
+            return back()->withInput()->withErrors(['newPost' => '投稿内容が空白です。']);
+        }
+
         
-        $up_post = $request->input('upPost');
         
         DB::table('posts')
         
@@ -95,19 +122,13 @@ class PostsController extends Controller
     {
         $keyword = $request->input('keyword');
 
-        // $query = Post::query();
         $query = Post::query()->with('user'); // userリレーションをロード
 
         if(!empty($keyword)) {
             $query->where('post', 'LIKE', "%{$keyword}%");
                 // ->orWhere('author', 'LIKE', "%{$keyword}%");
         }
-
-        // $posts = $query->get();
-
         $lists = $query->get();
-
-        // return view('posts.kennsaku', compact('posts', 'keyword'));
 
         return view('posts.index', ['lists' => $lists, 'keyword' => $keyword]);
         

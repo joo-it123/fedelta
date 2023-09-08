@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<body>
 <div class='container'>
 
 <p class="pull-right"><a class="btn btn-success" href="/create-form">投稿する</a></p>
@@ -10,7 +11,10 @@
     <input type="text" name="keyword" value="{{ $keyword }}">
     <input type="submit" value="検索">
   </form>
-
+  @if(count($lists) === 0)
+    <p>検索結果は0件です。</p>
+@else
+@endif
 
  
 <h2 class='page-header'>投稿一覧</h2>
@@ -53,11 +57,16 @@
 <td>{{ $list->created_at }}</td>
  
 </tr>
+<td>
+<!-- ユーザーがログインしており、かつそのユーザーが投稿の作者である場合 -->
+    @if (Auth::check() && $list->user_id === Auth::user()->id)
+    <a class="btn btn-primary" href="/post/{{ $list->id }}/update-form">更新</a>
 
-<td><a class="btn btn-primary" href="/post/{{ $list->id }}/update-form">更新</a></td>
+        <a class="btn btn-danger" href="/post/{{ $list->id }}/delete"
+    onclick="return confirm('こちらの投稿を削除してもよろしいでしょうか？')">削除</a>
+    @endif
 
-<td><a class="btn btn-danger" href="/post/{{ $list->id }}/delete"
- onclick="return confirm('こちらの投稿を削除してもよろしいでしょうか？')">削除</a></td>
+</td>
  
 @endforeach
  
