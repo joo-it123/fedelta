@@ -40,8 +40,13 @@ class PostsController extends Controller
         $post = $request->input('newPost');
 
         if (empty(trim($post)) || preg_match('/^\s*$/', $post) || preg_match('/^[　\s]*$/', $post)) {
-            return back()->withInput()->withErrors(['newPost' => '投稿内容が空白です。']);
+            return back()->withInput()->withErrors(['newPost' => '投稿内容は必須です。']);
         }
+
+        if (mb_strlen($post) > 100) {
+            return back()->withInput()->withErrors(['newPost' => '投稿内容は100文字以内で入力してください。']);
+        }
+    
         
     
 
@@ -129,6 +134,7 @@ class PostsController extends Controller
                 // ->orWhere('author', 'LIKE', "%{$keyword}%");
         }
         $lists = $query->get();
+        
 
         return view('posts.index', ['lists' => $lists, 'keyword' => $keyword]);
         

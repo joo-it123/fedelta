@@ -24,10 +24,6 @@
  
  
  
-@yield('content')
- 
- 
- 
 <footer>
  
     <small>Laravel@crud.curriculum</small>

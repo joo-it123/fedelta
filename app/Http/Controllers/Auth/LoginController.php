@@ -19,7 +19,10 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
+    public function redirectPath()
+    {
+        return '/index'; // ログイン後にリダイレクトされるパス
+    }
     use AuthenticatesUsers;
 
     /**
@@ -27,7 +30,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/index';
+    // protected $redirectTo = '/dashboard';
+
 
     /**
      * Create a new controller instance.
@@ -47,8 +53,5 @@ class LoginController extends Controller
     return redirect('/login');
 }
 
-public function redirectPath()
-{
-    return '/index'; // ログイン後にリダイレクトされるパス
-}
+
 }

@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostsController;
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,19 +19,19 @@ use App\Http\Controllers\PostsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login'); // ログインページにリダイレクト
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('index', [PostsController::class, 'index'])->name('posts.index');
-});
-
-
-Route::middleware(['auth'])->group(function () {
+    
+   
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
 });
+
 
 
 require __DIR__.'/auth.php';
@@ -36,12 +39,14 @@ require __DIR__.'/auth.php';
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+
 
 
     Route::get('hello', [PostsController::class, 'hello']);
 
     Route::get('index', [PostsController::class, 'index']);
+
+    Route::get('index', [PostsController::class, 'in'])->name('posts.in');
 
     Route::get('/create-form', [PostsController::class, 'createForm']);
 
@@ -53,13 +58,13 @@ Auth::routes();
 
     Route::get('post/{id}/delete', [PostsController::class, 'delete']);
     
-    Route::get('index', [PostsController::class, 'in'])->name('posts.in');
 
-   // password/reset ルートの名前を変更
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset.custom');
+// password/reset ルートの名前を変更
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset.custom');
 
-    // password.request ルートの名前を変更
-    Route::get('forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request.custom');
+// password.request ルートの名前を変更
+Route::get('forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request.custom');
 
-    // password/email ルートの名前を変更
+// password/email ルートの名前を変更
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email.custom');
+Auth::routes();

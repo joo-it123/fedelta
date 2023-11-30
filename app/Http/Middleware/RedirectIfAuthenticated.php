@@ -20,13 +20,23 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
-
+    
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // return redirect(RouteServiceProvider::HOME);
+                return redirect('/index'); // 認証済みの場合、'/index' にリダイレクト
             }
         }
-
-        return $next($request);
+    
+        // リクエストがログインページに対するものでない場合にのみリダイレクト
+        if ($request->routeIs('login')) {
+            return $next($request);
+        }
+        if ($request->routeIs('register')) {
+            return $next($request);
+        }
+    
+        return redirect('/login');
     }
+    
 }

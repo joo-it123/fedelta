@@ -23,7 +23,6 @@
   <button type="submit" class="btn btn-primary">ログイン</button>
   {{ csrf_field() }}
 
-  {{ old('name') }}
   </form>
   </div>
   </div>
