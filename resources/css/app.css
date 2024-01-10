@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* top */
  
 header,
@@ -172,3 +173,8 @@ button {
   display: block;
  
 }
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+>>>>>>> 49d5b26f76c9414c5c664dcc334c8910e1fdb7a1

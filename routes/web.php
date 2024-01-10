@@ -33,10 +33,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
-// require __DIR__.'/auth.php';
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
@@ -67,7 +63,3 @@ Route::get('forgot-password', 'Auth\ForgotPasswordController@showLinkRequestForm
 
 // password/email ルートの名前を変更
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email.custom');
-Auth::routes();
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
