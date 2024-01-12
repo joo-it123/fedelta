@@ -6,7 +6,6 @@ use App\Http\Controllers\PostsController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,18 +21,21 @@ Route::get('/', function () {
     return redirect()->route('login'); // ログインページにリダイレクト
 });
 
+// 新しく追加
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('index', [PostsController::class, 'index'])->name('posts.index');
     
-   
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
 });
 
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// 以下省略...
+
 
 
 

@@ -29,12 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-<<<<<<< HEAD
     protected $redirectTo = '/login';
-=======
-    // protected $redirectTo = RouteServiceProvider::HOME;
-    protected $redirectTo = 'login';
->>>>>>> 49d5b26f76c9414c5c664dcc334c8910e1fdb7a1
 
     /**
      * Create a new controller instance.
@@ -55,11 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-<<<<<<< HEAD
             'name' => ['required', 'string', 'max:255'],
-=======
-            'name' => ['required', 'string', 'max:255', 'regex:/^(?![\s　]+$)[^\s　]/u'],
->>>>>>> 49d5b26f76c9414c5c664dcc334c8910e1fdb7a1
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -79,12 +70,4 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-<<<<<<< HEAD
-=======
-
-    protected function redirectTo()
-{
-    return '/login'; // リダイレクト先をログインページに変更
-}
->>>>>>> 49d5b26f76c9414c5c664dcc334c8910e1fdb7a1
 }
